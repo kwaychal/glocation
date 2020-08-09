@@ -148,7 +148,7 @@
     }) => {
         return new google.maps.Marker({
             map,
-            icon:'car.png',
+            icon: 'car.png',
             position
         });
     };

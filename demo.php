@@ -153,7 +153,7 @@
     }) => {
         return new google.maps.Marker({
             map,
-            icon:'car.png',
+            icon: 'car.png',
             position
         });
     };
@@ -276,23 +276,23 @@
                     marker2.setPosition(CurrentLocation);
                     directionsRenderer.setDirections(response);
                     // calculate positions for the animation steps
-                // the result is an array of LatLng, stored in autoDriveSteps
-                autoDriveSteps = new Array();
-                var remainingSeconds = 0;
-                var leg = response.routes[0].legs[0]; // supporting single route, single legs currently
-                leg.steps.forEach(function(step) {
-                    var stepSeconds = step.duration.value;
-                    var nextStopSeconds = speedFactor - remainingSeconds;
-                    while (nextStopSeconds <= stepSeconds) {
-                        var nextStopLatLng = getPointBetween(step.start_location, step.end_location, nextStopSeconds / stepSeconds);
-                        autoDriveSteps.push(nextStopLatLng);
-                        nextStopSeconds += speedFactor;
+                    // the result is an array of LatLng, stored in autoDriveSteps
+                    autoDriveSteps = new Array();
+                    var remainingSeconds = 0;
+                    var leg = response.routes[0].legs[0]; // supporting single route, single legs currently
+                    leg.steps.forEach(function(step) {
+                        var stepSeconds = step.duration.value;
+                        var nextStopSeconds = speedFactor - remainingSeconds;
+                        while (nextStopSeconds <= stepSeconds) {
+                            var nextStopLatLng = getPointBetween(step.start_location, step.end_location, nextStopSeconds / stepSeconds);
+                            autoDriveSteps.push(nextStopLatLng);
+                            nextStopSeconds += speedFactor;
+                        }
+                        remainingSeconds = stepSeconds + speedFactor - nextStopSeconds;
+                    });
+                    if (remainingSeconds > 0) {
+                        autoDriveSteps.push(leg.end_location);
                     }
-                    remainingSeconds = stepSeconds + speedFactor - nextStopSeconds;
-                });
-                if (remainingSeconds > 0) {
-                    autoDriveSteps.push(leg.end_location);
-                }
                     startRouteAnimation(marker2);
                 } else {
                     window.alert("Directions request failed due to " + status);
@@ -301,26 +301,26 @@
         );
     }
 
-// helper method to calculate a point between A and B at some ratio
-function getPointBetween(a, b, ratio) {
-    return new google.maps.LatLng(a.lat() + (b.lat() - a.lat()) * ratio, a.lng() + (b.lng() - a.lng()) * ratio);
-}
+    // helper method to calculate a point between A and B at some ratio
+    function getPointBetween(a, b, ratio) {
+        return new google.maps.LatLng(a.lat() + (b.lat() - a.lat()) * ratio, a.lng() + (b.lng() - a.lng()) * ratio);
+    }
 
-// start the route simulation   
-function startRouteAnimation(marker) {
-    var autoDriveTimer = setInterval(function () {
-            // stop the timer if the route is finished
-            if (autoDriveSteps.length === 0) {
-                clearInterval(autoDriveTimer);
-            } else {
-                // move marker to the next position (always the first in the array)
-                marker.setPosition(autoDriveSteps[0]);
-                // remove the processed position
-                autoDriveSteps.shift();
-            }
-        },
-        1000);
-}
+    // start the route simulation   
+    function startRouteAnimation(marker) {
+        var autoDriveTimer = setInterval(function() {
+                // stop the timer if the route is finished
+                if (autoDriveSteps.length === 0) {
+                    clearInterval(autoDriveTimer);
+                } else {
+                    // move marker to the next position (always the first in the array)
+                    marker.setPosition(autoDriveSteps[0]);
+                    // remove the processed position
+                    autoDriveSteps.shift();
+                }
+            },
+            1000);
+    }
 </script>
 
 </html>
