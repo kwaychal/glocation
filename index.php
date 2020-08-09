@@ -103,7 +103,8 @@
         <select id="end">
             <option value="thane">Mumbai</option>
             <option value="thane">Thane</option>
-            <option value="karad">Pune</option>
+            <option value="pune">Pune</option>
+            <option value="karad">Karad</option>
         </select>
     </div>
     <div id="right-panel"></div>
