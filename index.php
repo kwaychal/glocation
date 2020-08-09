@@ -113,6 +113,8 @@
 <script>
     "use strict";
 
+    var CurrentLocation;
+
     /**
      * Create google maps Map instance.
      * @param {number} lat
@@ -236,6 +238,7 @@
                     lng
                 });
                 $info.textContent = `Lat: ${lat.toFixed(5)} Lng: ${lng.toFixed(5)}`;
+                CurrentLocation = new google.maps.LatLng(lat.toFixed(5), lng.toFixed(5));
                 $info.classList.remove('error');
             },
             onError: err => {
@@ -249,8 +252,11 @@
     function calculateAndDisplayRoute(directionsService, directionsRenderer) {
         const start = document.getElementById("start").value;
         const end = document.getElementById("end").value;
+        const $info = document.getElementById('info');
+
+        console.log(CurrentLocation);
         directionsService.route({
-                origin: start,
+                origin: CurrentLocation,
                 destination: end,
                 travelMode: google.maps.TravelMode.DRIVING
             },
