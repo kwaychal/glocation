@@ -132,6 +132,7 @@
         });
     };
 
+
     /**
      * Create google maps Marker instance.
      * @param {Object} map
@@ -144,6 +145,7 @@
     }) => {
         return new google.maps.Marker({
             map,
+            icon:'car.png',
             position
         });
     };
