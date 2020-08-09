@@ -275,34 +275,7 @@
                 if (status === "OK") {
                     marker2.setPosition(CurrentLocation);
                     directionsRenderer.setDirections(response);
-                    setAnimatedRoute(CurrentLocation, end, map);
-                    startRouteAnimation(marker2);
-                } else {
-                    window.alert("Directions request failed due to " + status);
-                }
-            }
-        );
-    }
-
-    function setAnimatedRoute(origin, destination, map) {
-    // init routing services
-    var directionsService = new google.maps.DirectionsService;
-    var directionsRenderer = new google.maps.DirectionsRenderer({
-        map: map
-    });
-
-    //calculate route
-    directionsService.route({
-            origin: origin,
-            destination: destination,
-            travelMode: google.maps.TravelMode.DRIVING
-        },
-        function(response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                // display the route
-                directionsRenderer.setDirections(response);
-
-                // calculate positions for the animation steps
+                    // calculate positions for the animation steps
                 // the result is an array of LatLng, stored in autoDriveSteps
                 autoDriveSteps = new Array();
                 var remainingSeconds = 0;
@@ -320,11 +293,13 @@
                 if (remainingSeconds > 0) {
                     autoDriveSteps.push(leg.end_location);
                 }
-            } else {
-                window.alert('Directions request failed due to ' + status);
+                    startRouteAnimation(marker2);
+                } else {
+                    window.alert("Directions request failed due to " + status);
+                }
             }
-        });
-}
+        );
+    }
 
 // helper method to calculate a point between A and B at some ratio
 function getPointBetween(a, b, ratio) {
